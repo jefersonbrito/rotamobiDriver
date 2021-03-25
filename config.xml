@@ -7,7 +7,9 @@
     <author email="jeferson@jefersonbrito.com.br" href="http://www.rotamobi.com.br">
         RotaMobi team.
     </author>
-    <content src="index.html" />
+    <!--<content src="index.html" />-->
+    <content src="direction.html" />
+    
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
