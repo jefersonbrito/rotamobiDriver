@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript">
+            document.addEventListener("deviceready", function () {
+                var onSuccess = function (position) {
+                    var lati = position.coords.latitude;
+                    var longi = position.coords.longitude;
+//                    alert('Latitude: ' + position.coords.latitude + '\n' +
+//                            'Longitude: ' + position.coords.longitude + '\n' +
+//                            'Altitude: ' + position.coords.altitude + '\n' +
+//                            'Accuracy: ' + position.coords.accuracy + '\n' +
+//                            'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n' +
+//                            'Heading: ' + position.coords.heading + '\n' +
+//                            'Speed: ' + position.coords.speed + '\n' +
+//                            'Timestamp: ' + position.timestamp + '\n');
+
+                    var div = document.getElementById("map_canvas");
+
+                    // Create a Google Maps native view under the map_canvas div.
+                    var map = plugin.google.maps.Map.getMap(div);
+
+                    // Move to the position with animation
+                    map.animateCamera({
+                        target: {lat: lati, lng: longi},
+                        zoom: 20,
+                        tilt: 60,
+                        bearing: 140,
+                        duration: 3000
+                    });
+
+                    // Add a maker
+                    var marker = map.addMarker({
+                        position: {lat: lati, lng: longi},
+                        title: "Estou aqui",
+                        snippet: "Procurando seu motorista",
+                        animation: plugin.google.maps.Animation.BOUNCE
+                    });
+
+                    // Show the info window
+                    marker.showInfoWindow();
+                };
+
+                // onError Callback receives a PositionError object
+                function onError(error) {
+                    alert('code: ' + error.code + '\n' +
+                            'message: ' + error.message + '\n');
+                }
+
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+//                // If you click the button, do something...
+//                var button = document.getElementById("button");
+//
+//                button.addEventListener("click", function () {
+//
+//
+//
+//                });
+
+            }, false);
+
+        </script>
+        <style type="text/css">
+            #map_canvas { /* Must bigger size than 100x100 pixels */
+                width: 100%;
+                height: 600px;
+            }
+            button {
+                padding: .5em;
+                margin: .5em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map_canvas">
+            
+        </div>
+    </body>
+</html>

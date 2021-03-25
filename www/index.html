@@ -1,82 +1,48 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Directions Service (Complex)</title>
         <meta name="viewport" content="width=device-width">
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript">
-            document.addEventListener("deviceready", function () {
-                var onSuccess = function (position) {
-                    var lati = position.coords.latitude;
-                    var longi = position.coords.longitude;
-//                    alert('Latitude: ' + position.coords.latitude + '\n' +
-//                            'Longitude: ' + position.coords.longitude + '\n' +
-//                            'Altitude: ' + position.coords.altitude + '\n' +
-//                            'Accuracy: ' + position.coords.accuracy + '\n' +
-//                            'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '\n' +
-//                            'Heading: ' + position.coords.heading + '\n' +
-//                            'Speed: ' + position.coords.speed + '\n' +
-//                            'Timestamp: ' + position.timestamp + '\n');
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet"/>
 
-                    var div = document.getElementById("map_canvas");
-
-                    // Create a Google Maps native view under the map_canvas div.
-                    var map = plugin.google.maps.Map.getMap(div);
-
-                    // Move to the position with animation
-                    map.animateCamera({
-                        target: {lat: lati, lng: longi},
-                        zoom: 20,
-                        tilt: 60,
-                        bearing: 140,
-                        duration: 3000
-                    });
-
-                    // Add a maker
-                    var marker = map.addMarker({
-                        position: {lat: lati, lng: longi},
-                        title: "Estou aqui",
-                        snippet: "Procurando seu motorista",
-                        animation: plugin.google.maps.Animation.BOUNCE
-                    });
-
-                    // Show the info window
-                    marker.showInfoWindow();
-                };
-
-                // onError Callback receives a PositionError object
-                function onError(error) {
-                    alert('code: ' + error.code + '\n' +
-                            'message: ' + error.message + '\n');
-                }
-
-                navigator.geolocation.getCurrentPosition(onSuccess, onError);
-
-//                // If you click the button, do something...
-//                var button = document.getElementById("button");
-//
-//                button.addEventListener("click", function () {
-//
-//
-//
-//                });
-
-            }, false);
-
-        </script>
-        <style type="text/css">
-            #map_canvas { /* Must bigger size than 100x100 pixels */
-                width: 100%;
-                height: 600px;
-            }
-            button {
-                padding: .5em;
-                margin: .5em;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="./style.css" />
+        <link rel="stylesheet" type="text/css" href="css/directions.css" />
+        <script src="js/directions.js"></script>
+        <!-- jsFiddle will insert css and js -->
     </head>
     <body>
-        <div id="map_canvas">
-            
+        <div id="floating-panel">
+            <form id="address-form" action="" method="get" autocomplete="off">
+
+                <input id='start' type='hidden' name='start' value='-'>
+                <b>Para onde podemos te levar ?</b>
+                <input id="end"   name="end"    required   autocomplete="off" />
+                <!--            <select id="end">
+                                <option value="">Selecione</option>
+                                <option value="Salvador Shopping">Salvador Shopping</option>
+                                <option value="Brasil Jurídico © - Ensino de Alta Performance, Hub Salvador - Av. da França, 393 - 2º andar - Comercio, Salvador - BA, 40010-000">
+                                    Brasil Juridico
+                                </option>
+                            </select>-->
+            </form>
+            <!-- Note: The address components in this sample are based on North American address format. You might need to adjust them for the locations relevant to your app. For more information, see
+https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+            -->
         </div>
+        <div id="map"></div>
+        &nbsp;
+        <div id="warnings-panel"></div>
+
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <!--        <script
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=&v=weekly"
+                    async
+                ></script>-->
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initAutocomplete&libraries=places&v=weekly"
+            async
+        ></script>
     </body>
 </html>
