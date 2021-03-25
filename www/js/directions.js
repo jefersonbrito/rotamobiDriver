@@ -18,28 +18,13 @@ document.addEventListener("deviceready", function () {
 
         var div = document.getElementById("map_canvas");
 
-        // Create a Google Maps native view under the map_canvas div.
-        var map = plugin.google.maps.Map.getMap(div);
+//        // Create a Google Maps native view under the map_canvas div.
+//        var map = plugin.google.maps.Map.getMap(div);
 
-        // Move to the position with animation
-        map.animateCamera({
-            target: {lat: lati, lng: longi},
-            zoom: 20,
-            tilt: 60,
-            bearing: 140,
-            duration: 3000
-        });
 
-        // Add a maker
-        var marker = map.addMarker({
-            position: {lat: lati, lng: longi},
-            title: "Estou aqui",
-            snippet: "Procurando seu motorista",
-            animation: plugin.google.maps.Animation.BOUNCE
-        });
 
         // Show the info window
-        marker.showInfoWindow();
+//        marker.showInfoWindow();
     };
 
     // onError Callback receives a PositionError object
@@ -50,18 +35,18 @@ document.addEventListener("deviceready", function () {
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
-
-
     function initMap(lat, lng) {
 
         const markerArray = [];
         const myLatLng = {lat: lat, lng: lng};
+
         // Instantiate a directions service.
         const directionsService = new google.maps.DirectionsService();
+
         // Create a map and center no seu local atual.
         const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 18,
-            center: {lat: lat, lng: lng}
+            zoom: 17,
+            center: myLatLng
         });
 
         // Create a renderer for directions and bind it to the map.
@@ -74,6 +59,7 @@ document.addEventListener("deviceready", function () {
         });
 
         markerLocal.setMap(map);
+        getDrivers(map);
 
         // Instantiate an info window to hold step text.
         const stepDisplay = new google.maps.InfoWindow();
@@ -156,7 +142,11 @@ document.addEventListener("deviceready", function () {
                 stepDisplay.open(map, marker);
             });
         }
+
+
+
     }
+
 
     initAutocomplete();
 }, false);
@@ -247,4 +237,21 @@ function fillInAddress() {
     // prediction, set cursor focus on the second address line to encourage
     // entry of subpremise information such as apartment, unit, or floor number.
     address2Field.focus();
+}
+
+function getDrivers(map) {
+    $.ajax({url: "http://devibe.com.br/getDrivers", success: function (result) {
+            const imagem = "http://devibe.com.br/img/602136.png";
+            for (var i = 0; i < result.length; i++) {
+                var myLatLng = {lat: result[i].lat, lng: result[i].lng};
+                $markerDriver = new google.maps.Marker({
+                    'position': myLatLng,
+                    map,
+                    'title': result[i].name,
+                    'label': result[i].name,
+                    'icon': imagem
+                });
+                $markerDriver.setMap(map);
+            }
+        }});
 }
