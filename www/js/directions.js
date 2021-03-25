@@ -106,7 +106,7 @@ document.addEventListener("deviceready", function () {
                     document.getElementById("warnings-panel").innerHTML =
                             "<b>" + result.routes[0].warnings + "</b>";
                     directionsRenderer.setDirections(result);
-//        showSteps(result, markerArray, stepDisplay, map);
+                    //showSteps(result, markerArray, stepDisplay, map);
                 } else {
                     window.alert("Directions request failed due to " + status);
                 }
@@ -142,24 +142,10 @@ document.addEventListener("deviceready", function () {
                 stepDisplay.open(map, marker);
             });
         }
-
-
-
     }
-
-
     initAutocomplete();
 }, false);
 
-
-// This sample uses the Places Autocomplete widget to:
-// 1. Help the user select a place
-// 2. Retrieve the address components associated with that place
-// 3. Populate the form fields with those address components.
-// This sample requires the Places library, Maps JavaScript API.
-// Include the libraries=places parameter when you first load the API.
-// For example: <script
-// src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 let autocomplete;
 let address1Field;
 
